@@ -1,12 +1,16 @@
-#include<iostream>
+#include<iostream> 
 #include<ctype.h>     /*  Character Class Tests  */
 #include<stdio.h>     /*  Standard I/O.          */
 #include<stdlib.h>    /*  Utility Functions.     */
 
-#define EMPTY 0  /*  Empty disk position.  */
+#define EMPTY 9  /*  Empty disk position.  */
 #define DISKS 3  /*  Number of disks.  */
 
-int pos[3][DISKS];  /*  Disk position array, [rows][columns].  */
+using namespace std;
+
+int *pos[3][DISKS];  /*  Disk position array, [rows][columns].  */
+int iNumber = 0;
+int jNumber = 0;
 
 char code[3] = { 'A', 'B', 'C' };  /*  Peg names.  */
 void towers(int n, int source, int temporary, int destination);
@@ -14,10 +18,8 @@ void moveDisk(int source, int destination);
 
 int main(int argc, char *argv[])
 {
-	int i = 0;
-	int j = 0;
-
-	int hold = 0;
+	int i = (int&)iNumber;
+	int j = (int&)jNumber; 
 
 	/*  Initialize disk positions.  */
 	for (i = 0; i < 3; ++i)
@@ -26,11 +28,11 @@ int main(int argc, char *argv[])
 		{
 			if (i == 0)
 			{
-				pos[i][j] = j + 1;
+				pos[i][j] = ((int*)j);
 			}
 			else
 			{
-				pos[i][j] = EMPTY;
+				pos[i][j] =((int*)EMPTY);
 			}
 		}
 	}
@@ -41,7 +43,7 @@ int main(int argc, char *argv[])
 
 	for (j = 0; j < DISKS; ++j)
 	{
-		printf("%11.1d %d %d\n", pos[0][j], pos[1][j], pos[2][j]);
+		printf("%11.1d %d %d\n", pos[0][j], pos[1][j], pos[0][3]);
 	}
 
 	towers(DISKS, 0, 1, 2);
@@ -67,17 +69,17 @@ void towers(int n, int source, int temporary, int destination)
 
 void moveDisk(int source, int destination)
 {
-	int i = 0;
-	int j = 0;
+	int i = (int&)iNumber;
+	int j = (int&)jNumber;
 	
 	/*  Determine source location.  */
-	while (pos[source][i] == EMPTY)
+	while (pos[source][i] ==((int*) EMPTY))
 	{
 		i++;
 	}
 
 	/*  Determine destination location.  */
-	while ((pos[destination][j] == EMPTY) && (j < DISKS))
+	while ((pos[destination][j] ==((int*) EMPTY) && (j < DISKS)))
 	{
 		j++;
 	}
@@ -88,7 +90,7 @@ void moveDisk(int source, int destination)
 	printf("\n  Move disk #%d from %c to %c:\n\n",
 		pos[source][i], code[source], code[destination]);
 	pos[destination][j] = pos[source][i];
-	pos[source][i] = EMPTY;
+	pos[source][i] =((int*) EMPTY);
 
 	/*  Print disk positions after move.  */
 	printf("\n\n          A B C\n");
